@@ -1,7 +1,7 @@
 import { ProductResponseModel } from './../models/models/productResponseModel';
 import { Component, OnInit } from '@angular/core';
 import { Product } from '../models/models/product';
-import { HttpClient } from '@angular/common/http';
+import { ProductService } from 'src/app/services/product.service';
 
 @Component({
   selector: 'app-product',
@@ -10,17 +10,18 @@ import { HttpClient } from '@angular/common/http';
 })
 export class ProductComponent implements OnInit {
   products: Product[] = []
-  apiUrl: string = "https://localhost:44377/api/products/getall"
-
-  constructor(private httpClient: HttpClient) { }
+  dataLoaded: boolean = false
+  constructor(private productService: ProductService) { }
 
   ngOnInit(): void {
     //console.log("init çalıştı")
     this.getProducts()
   }
   getProducts() {
-    this.httpClient.get<ProductResponseModel>(this.apiUrl).subscribe((response) => {
+    console.log("Metot async çalışşır")
+    this.productService.getProducts().subscribe(response => {
       this.products = response.data
+      this.dataLoaded = true
     })
   }
 
