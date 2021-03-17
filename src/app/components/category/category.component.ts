@@ -1,6 +1,7 @@
+import { Category } from './../../models/category';
 import { CategoryService } from './../../services/category.service';
-import { Category } from './../models/models/category';
 import { Component, OnInit } from '@angular/core';
+import { isNull } from '@angular/compiler/src/output/output_ast';
 
 @Component({
   selector: 'app-category',
@@ -9,6 +10,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CategoryComponent implements OnInit {
   categories: Category[] = []
+  currentCategory: Category;
+  nullCategory: Category;
   dataLoaded: boolean = false
   constructor(private categoryService: CategoryService) { }
 
@@ -23,5 +26,24 @@ export class CategoryComponent implements OnInit {
       this.dataLoaded = true
     })
   }
-
+  setCurrentCategory(category: Category) {
+    this.currentCategory = category;
+  }
+  setAllCategory() {
+    this.currentCategory = this.nullCategory;
+  }
+  getCurrentCategoryClass(category: Category) {
+    if (category == this.currentCategory) {
+      return "list-group-item active"
+    } else {
+      return "list-group-item"
+    }
+  }
+  getAllCategoryClass() {
+    if (!this.currentCategory) {
+      return "list-group-item active"
+    } else {
+      return "list-group-item"
+    }
+  }
 }
